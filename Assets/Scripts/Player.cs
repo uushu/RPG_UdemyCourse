@@ -1,54 +1,52 @@
 
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
+    [Header("FPS Info")]
     private float fps = 0f;
     private float timer = 0f;
     private int frameCount = 0;
     
-    private float xInput = 0f;
-    private float facingDir = 1f;
-    private bool facingRight = true;
-    
+    [Header("Move Info")]
     [SerializeField]private float moveSpeed = 5f;
     [SerializeField]private float jumpForce = 5f;
 
     [Header("Dash Info")] 
     [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashDuration;
+    [SerializeField] private float dashDuration; //冲刺持续时间
     private float dashTimer;
-    
-    [SerializeField] private float dashCooldown;
+    [SerializeField] private float dashCooldown; //冲刺冷却时间
     private float dashCoolTimer;
-    
-    
 
-    [Header("Collision Info")]
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private LayerMask groundLayer;
-    private bool isGrounded ;
+    [Header("Attack Info")] 
+    [SerializeField] private float comboTimeWindow; //连击时间窗口
+    private float comboTimer;
+    private bool isAttacking = false;
+    private int comboCounter = 0;
     
+    private float xInput = 0f;
     
-    private Rigidbody2D rb;
-    private Animator animator;
-    void Start()
+    protected override void Start()
     {
-        rb=GetComponent<Rigidbody2D>();
-        animator=GetComponentInChildren<Animator>();
-        
+        base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         //模块化
         ShowFPS();
-        
-        CollisionChecks();
         CheckInput();
        
         dashCoolTimer-=Time.deltaTime;
         dashTimer-=Time.deltaTime;
+        comboTimer-=Time.deltaTime;
+        
+        if(comboTimer<0)
+        {
+            comboCounter=0;
+        }
         
         Movement();
         AnimatorController();
@@ -66,38 +64,70 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
-    }
-    private void Jump()
-    {
-        if(isGrounded)
-            rb.velocity=new Vector2(rb.velocity.x,jumpForce);
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            AttackAbility();
+        }
     }
 
+    private void Movement()
+    {
+        if (isAttacking)
+            rb.velocity = new Vector2(0, 0);
+        else if (dashTimer > 0)
+            rb.velocity=new Vector2(dashSpeed * facingDir,0);
+            //rb.velocity=new Vector2(dashSpeed * xInput,0);
+        else
+            rb.velocity=new Vector2(moveSpeed * xInput,rb.velocity.y);
+    }
+
+    void AnimatorController()
+    {
+        bool isMoving=rb.velocity.x!=0;
+        anim.SetFloat("yVelocity",rb.velocity.y);
+        anim.SetBool("isMoving",isMoving);
+        anim.SetBool("isGrounded",isGrounded);
+        anim.SetBool("isDashing",dashTimer>0);
+        anim.SetBool("isAttacking",isAttacking);
+        anim.SetInteger("comboCounter",comboCounter);
+        
+    }
+    
+    private void AttackAbility()
+    {
+        if(!isGrounded)
+            return;
+        if (comboTimer < 0)
+            comboCounter = 0;
+        if(comboCounter>2)
+            comboCounter=0;
+
+        isAttacking = true;
+        comboTimer = comboTimeWindow;
+        
+    }
+
+    public void AttackOver()
+    {
+        isAttacking = false;
+        comboCounter++;
+    }
+    
     private void DashAbility()
     {
-        if (dashCoolTimer < 0)
+        if (!isAttacking && dashCoolTimer < 0 )
         {
             dashCoolTimer = dashCooldown;
             dashTimer = dashDuration;
         }
     }
-
-    private void CollisionChecks()
+    
+    private void Jump()
     {
-        isGrounded=Physics2D.Raycast(transform.position,Vector2.down,groundCheckDistance,groundLayer);
+        if(isGrounded)
+            rb.velocity=new Vector2(rb.velocity.x,jumpForce);
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x,transform.position.y-groundCheckDistance));
-    }
-
-    private void Flip()
-    {
-        facingDir=facingDir*-1;
-        facingRight=!facingRight;
-        transform.Rotate(0f,180f,0f);
-    }
+    
     
     private void FlipController()
     {
@@ -110,17 +140,6 @@ public class Player : MonoBehaviour
             Flip();
         }
     }
-
-    
-
-    private void Movement()
-    {
-        if (dashTimer > 0)
-            rb.velocity=new Vector2(dashSpeed * facingDir,0);
-        else
-            rb.velocity=new Vector2(moveSpeed * xInput,rb.velocity.y);
-    }
-
     private void ShowFPS()
     {
         frameCount++;
@@ -133,17 +152,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    
-
-    void AnimatorController()
-    {
-        bool isMoving=rb.velocity.x!=0;
-        animator.SetFloat("yVelocity",rb.velocity.y);
-        animator.SetBool("isMoving",isMoving);
-        animator.SetBool("isGrounded",isGrounded);
-        animator.SetBool("isDashing",dashTimer>0);
-        
-    }
 
     void OnGUI()
     {
