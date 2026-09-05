@@ -1,166 +1,152 @@
 
+using System;
+using System.Collections;
 using UnityEngine;
 
-public class Player : Entity
+public class Player : MonoBehaviour
 {
-    [Header("FPS Info")]
-    private float fps = 0f;
-    private float timer = 0f;
-    private int frameCount = 0;
+    [Header(("Attack Info"))]
+    public Vector2[] attackMovements;
+    public bool isBusy { get; private set; }
+    
     
     [Header("Move Info")]
-    [SerializeField]private float moveSpeed = 5f;
-    [SerializeField]private float jumpForce = 5f;
-
-    [Header("Dash Info")] 
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashDuration; //冲刺持续时间
-    private float dashTimer;
-    [SerializeField] private float dashCooldown; //冲刺冷却时间
-    private float dashCoolTimer;
-
-    [Header("Attack Info")] 
-    [SerializeField] private float comboTimeWindow; //连击时间窗口
-    private float comboTimer;
-    private bool isAttacking = false;
-    private int comboCounter = 0;
+    public float moveSpeed;
+    public float jumpForce;
     
-    private float xInput = 0f;
+    [Header("Dash Info")]
+    public float dashSpeed;
+    public float dashDuration;
+    [SerializeField]private float dashCooldown;
+    private float dashcoolTimer;
+    public float dashDir { get; private set; }
+
+    public float facingDir { get; private set; } = 1;
+    private bool facingRight = true;
     
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        //模块化
-        ShowFPS();
-        CheckInput();
-       
-        dashCoolTimer-=Time.deltaTime;
-        dashTimer-=Time.deltaTime;
-        comboTimer-=Time.deltaTime;
-        
-        if(comboTimer<0)
-        {
-            comboCounter=0;
-        }
-        
-        Movement();
-        AnimatorController();
-        FlipController();
-        
-    }
-    private void CheckInput()
-    {
-        xInput= Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            DashAbility();
-        }
-        if(Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            AttackAbility();
-        }
-    }
-
-    private void Movement()
-    {
-        if (isAttacking)
-            rb.velocity = new Vector2(0, 0);
-        else if (dashTimer > 0)
-            rb.velocity=new Vector2(dashSpeed * facingDir,0);
-            //rb.velocity=new Vector2(dashSpeed * xInput,0);
-        else
-            rb.velocity=new Vector2(moveSpeed * xInput,rb.velocity.y);
-    }
-
-    void AnimatorController()
-    {
-        bool isMoving=rb.velocity.x!=0;
-        anim.SetFloat("yVelocity",rb.velocity.y);
-        anim.SetBool("isMoving",isMoving);
-        anim.SetBool("isGrounded",isGrounded);
-        anim.SetBool("isDashing",dashTimer>0);
-        anim.SetBool("isAttacking",isAttacking);
-        anim.SetInteger("comboCounter",comboCounter);
-        
-    }
+    [Header("Collision Info")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckDistance;
+    [Space]
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private float wallCheckDistance;
+    [SerializeField] private LayerMask whatIsGround;
     
-    private void AttackAbility()
-    {
-        if(!isGrounded)
-            return;
-        if (comboTimer < 0)
-            comboCounter = 0;
-        if(comboCounter>2)
-            comboCounter=0;
+    #region States
+    public PlayerStateMachine stateMachine { get; private set; }
+    
+    public PlayerIdleState idleState { get; private set; }
+    public PlayerWalkState walkState { get; private set; }
+    public PlayerJumpState jumpState { get; private set; }
+    public PlayerAirState  airState  { get; private set; }
+    public PlayerDashState dashState { get; private set; }
+    public PlayerWallSlideState wallSlideState { get; private set; }
+    public PlayerWallJumpState  wallJumpState  { get; private set; }
+    public PlayerPrimaryAttackState primaryAttackState { get; private set; }
+    #endregion
 
-        isAttacking = true;
-        comboTimer = comboTimeWindow;
+    #region Components
+    public Animator anim { get; private set; }
+    public Rigidbody2D rb { get; private set; }
+    #endregion
+
+    private void Awake()
+    {
+        stateMachine = new PlayerStateMachine();
+
+        idleState = new PlayerIdleState(this, stateMachine, "Idle");
+        walkState = new PlayerWalkState(this, stateMachine, "Walk");
+        jumpState = new PlayerJumpState(this, stateMachine, "Jump");
+        airState  = new PlayerAirState(this, stateMachine, "Jump");
+        dashState = new PlayerDashState(this, stateMachine, "Dash");
+        wallSlideState = new PlayerWallSlideState(this, stateMachine, "WallSlide");
+        wallJumpState = new PlayerWallJumpState(this, stateMachine, "Jump");
+        primaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
+
+        anim=GetComponentInChildren<Animator>();
+        rb=GetComponent<Rigidbody2D>();
         
     }
 
-    public void AttackOver()
+    private void Start()
     {
-        isAttacking = false;
-        comboCounter++;
+        stateMachine.Initialize(idleState);
     }
-    
-    private void DashAbility()
+
+    private void Update()
     {
-        if (!isAttacking && dashCoolTimer < 0 )
+        stateMachine.currentState.Update();
+        GetDashInput();
+    }
+
+    public void GetDashInput()
+    {
+        if (IsWallDetected()) return;
+        dashcoolTimer-= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashcoolTimer <= 0)
         {
-            dashCoolTimer = dashCooldown;
-            dashTimer = dashDuration;
+            dashcoolTimer = dashCooldown;
+            dashDir=Input.GetAxisRaw("Horizontal");
+            if(dashDir==0)
+                dashDir=facingDir;
+            stateMachine.ChangeState(dashState);
         }
+            
     }
     
-    private void Jump()
+    #region Velocity
+    public void zeroVelocity() => rb.velocity = Vector2.zero;
+    public void SetVelocity(float _xVelocity, float _yVelocity)
     {
-        if(isGrounded)
-            rb.velocity=new Vector2(rb.velocity.x,jumpForce);
+        rb.velocity = new Vector2(_xVelocity, _yVelocity);
+        FlipController(_xVelocity);
     }
-    
-    
-    private void FlipController()
+    #endregion
+
+    #region Flip
+
+    public void Flip()
     {
-        if(facingRight && xInput<0)
-        {
+        facingDir *= -1;
+        facingRight = !facingRight;
+        transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+
+    public void FlipController(float _xVelocity)
+    {
+        if(_xVelocity > 0 && !facingRight)
             Flip();
-        }
-        else if(!facingRight && xInput>0)
-        {
+        else if(_xVelocity < 0 && facingRight)
             Flip();
-        }
-    }
-    private void ShowFPS()
-    {
-        frameCount++;
-        timer+= Time.deltaTime;
-        if (timer >= 1f)
-        {
-            fps = frameCount/ timer; // 平均 FPS
-            frameCount = 0;
-            timer = 0f;
-        }
     }
 
 
-    void OnGUI()
+    #endregion
+
+    #region Collision
+
+    public bool IsWallDetected() =>
+        Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
+    public bool IsGroundDetected() =>
+        Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+
+    private void OnDrawGizmos()
     {
-        // UI样式和渲染必须放在外面，保证每帧绘制
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 36;
-        style.normal.textColor= Color.red;
-        // 持续在屏幕左上角显示最新的 fps 值
-        GUI.Label(new Rect(10, 10, 200, 50), Mathf.RoundToInt(fps)+"FPS" , style);
+        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x+wallCheckDistance, wallCheck.position.y));
+    }
+
+    #endregion
+    
+
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    public IEnumerator BusyFor(float _seconds)
+    {
+        isBusy= true;
         
+        yield return new WaitForSeconds(_seconds);
+        
+        isBusy = false;
     }
 }

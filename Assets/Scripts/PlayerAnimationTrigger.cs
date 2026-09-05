@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationEvents : MonoBehaviour
+public class PlayerAnimationTrigger : MonoBehaviour
 {
     private Player player;
     void Start()
@@ -10,8 +10,8 @@ public class PlayerAnimationEvents : MonoBehaviour
         player = GetComponentInParent<Player>();
     }
 
-    private void AttackOver()
+    private void AnimationTrigger()
     {
-        player.AttackOver();
+        player.AnimationTrigger();
     }
 }
