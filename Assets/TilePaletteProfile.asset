@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82943f7998b1a54a950e3688960882d, type: 3}
+  m_Name: TilePaletteProfile
+  m_EditorClassIdentifier: 
+  sourceFolder: {fileID: 102900000, guid: f316d8e4faa45d2408cec2b9379ea445, type: 3}
+  tileOutputFolder: {fileID: 102900000, guid: 6abee0ece2d347f47b840570cbd9b1fe, type: 3}
+  palettePrefab: {fileID: 8060585102622711661, guid: 6bc4f0b6bc8522746a10f12275e7632f, type: 3}
+  groups: []
+  lastBuildHash: 
