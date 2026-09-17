@@ -25,8 +25,5 @@ public class Enemy_SkeletonAnimationTrigger : MonoBehaviour
 
     private void OpenCounterAttackWindow() => enemy.OpenCounterAttackWindow();
     private void CloseCounterAttackWindow() => enemy.CloseCounterAttackWindow();
-<<<<<<< HEAD:Assets/Scripts/Enemy/EnemyAnimationTrigger.cs
     
-=======
->>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b:Assets/Scripts/Enemy/Skeleton/Enemy_SkeletonAnimationTrigger.cs
 }

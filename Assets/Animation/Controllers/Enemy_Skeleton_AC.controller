@@ -132,7 +132,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
-<<<<<<< HEAD
 --- !u!1101 &1203226985858735017
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -175,8 +174,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
-=======
->>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
 --- !u!1102 &2521570326382962146
 AnimatorState:
   serializedVersion: 6
