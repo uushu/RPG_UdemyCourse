@@ -69,18 +69,48 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+<<<<<<< HEAD
+--- !u!1109 &-8343306321394309184
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: CounterAttack
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -7686338901775663023}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
+--- !u!1102 &-7686338901775663023
+=======
 --- !u!1102 &-6937623922150067881
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
+  m_Name: PlayerCounterAttack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -5422479219353810304}
+  - {fileID: 6540704654915586933}
+=======
   m_Name: PlayerSuccessfulCounterAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2785562848643932557}
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -90,7 +120,11 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
+<<<<<<< HEAD
+  m_Motion: {fileID: 7400000, guid: abf43119e0c82c442b84e67a5a365ea9, type: 2}
+=======
   m_Motion: {fileID: 7400000, guid: b620bde6476a8c349b4177f136a954b2, type: 2}
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -125,6 +159,33 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-6303799041271267037
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlayerSuccessfulCounterAttack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 5931634365357383293}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: b620bde6476a8c349b4177f136a954b2, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1109 &-6144767719718702939
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -142,6 +203,9 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+<<<<<<< HEAD
+--- !u!1101 &-5422479219353810304
+=======
 --- !u!1102 &-5879685488160588836
 AnimatorState:
   serializedVersion: 6
@@ -171,6 +235,7 @@ AnimatorState:
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1101 &-5600878949316603960
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,6 +243,16 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+<<<<<<< HEAD
+  - m_ConditionMode: 2
+    m_ConditionEvent: CounterAttack
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 1
+=======
   - m_ConditionMode: 1
     m_ConditionEvent: SuccessfulCounterAttack
     m_EventTreshold: 0
@@ -186,6 +261,7 @@ AnimatorStateTransition:
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
@@ -800,6 +876,15 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8438539695985896356}
+<<<<<<< HEAD
+    m_Position: {x: 270, y: 340, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7686338901775663023}
+    m_Position: {x: 270, y: 410, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6303799041271267037}
+    m_Position: {x: 270, y: 490, z: 0}
+=======
     m_Position: {x: 260, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5879685488160588836}
@@ -807,6 +892,7 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -6937623922150067881}
     m_Position: {x: 260, y: 370, z: 0}
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 2972713261077578920}
@@ -818,7 +904,11 @@ AnimatorStateMachine:
   - {fileID: -8623346993507470696}
   - {fileID: -111356737870767887}
   - {fileID: -4867297522464212533}
+<<<<<<< HEAD
+  - {fileID: -8343306321394309184}
+=======
   - {fileID: 3439138971706484201}
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -40, y: 50, z: 0}
@@ -873,6 +963,56 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 1
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &5931634365357383293
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: CounterAttack
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 1
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &6540704654915586933
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: SuccessfulCounterAttack
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -6303799041271267037}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
