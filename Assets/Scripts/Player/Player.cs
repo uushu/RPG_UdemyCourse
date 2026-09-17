@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class Player : Entity
 {
+<<<<<<< HEAD
     [Header(("Attack Info"))]
+=======
+    [Header(("Attack Info"))] 
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
     public float counterAttackDuration;
     public Vector2[] attackMovements;
     public bool isBusy { get; private set; }
@@ -34,7 +38,11 @@ public class Player : Entity
     public PlayerWallSlideState wallSlideState { get; private set; }
     public PlayerWallJumpState  wallJumpState  { get; private set; }
     public PlayerPrimaryAttackState primaryAttackState { get; private set; }
+<<<<<<< HEAD
     public PlayerCounterAttackState counterAttackState { get; private set; }
+=======
+    public PlayerCounetrAttackState counterAttackState { get; private set; }
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
     #endregion
 
    
@@ -52,9 +60,15 @@ public class Player : Entity
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJumpState = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
+<<<<<<< HEAD
         counterAttackState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
         
         
+=======
+        counterAttackState = new PlayerCounetrAttackState(this, stateMachine, "CounterAttack");
+
+
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
     }
 
     

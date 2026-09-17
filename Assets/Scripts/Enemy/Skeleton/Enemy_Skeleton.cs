@@ -32,6 +32,13 @@ public class Enemy_Skeleton : Enemy
     protected override void Update()
     {
         base.Update();
+<<<<<<< HEAD:Assets/Scripts/Enemy/Enemy_Skeleton.cs
+=======
+        
+        if(Input.GetKeyDown(KeyCode.U))
+            stateMachine.ChangeState(stunnedState);
+        
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b:Assets/Scripts/Enemy/Skeleton/Enemy_Skeleton.cs
     }
 
     public override bool CanBeStunned()
@@ -44,6 +51,9 @@ public class Enemy_Skeleton : Enemy
 
         return false;
     }
+<<<<<<< HEAD:Assets/Scripts/Enemy/Enemy_Skeleton.cs
     
 
+=======
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b:Assets/Scripts/Enemy/Skeleton/Enemy_Skeleton.cs
 }

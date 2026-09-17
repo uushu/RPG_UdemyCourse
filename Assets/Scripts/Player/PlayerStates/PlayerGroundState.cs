@@ -18,9 +18,15 @@ public class PlayerGroundState : PlayerState
     public override void Update()
     {
         base.Update();
+<<<<<<< HEAD
         if(Input.GetKeyDown(KeyCode.Mouse1))
             stateMachine.ChangeState(player.counterAttackState);
         
+=======
+        
+        if(Input.GetKeyDown(KeyCode.Mouse1))
+            stateMachine.ChangeState(player.counterAttackState);
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
         if(!player.IsGroundDetected())
             stateMachine.ChangeState(player.airState);
         

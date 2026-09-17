@@ -20,9 +20,6 @@ public class Enemy : Entity
     public float playerCheckDistance;
     [HideInInspector] public float lastAttackTime;
     [SerializeField] protected LayerMask whatIsPlayer;
-
-    
-    
     
     public EnemyStateMachine stateMachine { get; private set; }
     
@@ -39,6 +36,7 @@ public class Enemy : Entity
         
     }
 
+<<<<<<< HEAD
     public virtual bool CanBeStunned()
     {
         if (canBeStunned)
@@ -49,11 +47,16 @@ public class Enemy : Entity
         return false;
     }
 
+=======
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
     public virtual void OpenCounterAttackWindow()
     {
         canBeStunned = true;
         counterImage.SetActive(true);
+<<<<<<< HEAD
         
+=======
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
     }
 
     public virtual void CloseCounterAttackWindow()
@@ -62,6 +65,20 @@ public class Enemy : Entity
         counterImage.SetActive(false);
     }
 
+<<<<<<< HEAD
+=======
+    public virtual bool CanBeStunned()
+    {
+        if(canBeStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+
+        return false;
+    }
+
+>>>>>>> 8304eb08c271afbdc072ba49e6058888a69e708b
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     public virtual RaycastHit2D IsPlayerDetected()=>Physics2D.Raycast(transform.position, Vector2.right*facingDir, playerCheckDistance, whatIsPlayer);
 
