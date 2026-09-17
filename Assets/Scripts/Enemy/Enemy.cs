@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
-    [Header("Hit Info")] 
-    public float hitDuration;
-    public Vector2 hitDirection;
+    [Header("Stunned Info")] 
+    public float stunnedDuration;
+    public Vector2 stunnedDirection;
+    protected bool canBeStunned;
+    [SerializeField] protected GameObject counterImage;
     
     [Header("Move Info")]
     public  float moveSpeed ;
@@ -35,6 +37,29 @@ public class Enemy : Entity
         base.Update();
         stateMachine.currentState.Update();
         
+    }
+
+    public virtual bool CanBeStunned()
+    {
+        if (canBeStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        return false;
+    }
+
+    public virtual void OpenCounterAttackWindow()
+    {
+        canBeStunned = true;
+        counterImage.SetActive(true);
+        
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStunned = false;
+        counterImage.SetActive(false);
     }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
