@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimationTrigger : MonoBehaviour
+public class Enemy_SkeletonAnimationTrigger : MonoBehaviour
 {
     private Enemy_Skeleton enemy=>GetComponentInParent<Enemy_Skeleton>();
     
@@ -22,4 +22,7 @@ public class EnemyAnimationTrigger : MonoBehaviour
             
         }
     }
+
+    private void OpenCounterAttackWindow() => enemy.OpenCounterAttackWindow();
+    private void CloseCounterAttackWindow() => enemy.CloseCounterAttackWindow();
 }
