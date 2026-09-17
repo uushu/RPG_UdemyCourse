@@ -25,8 +25,8 @@ public class Entity : MonoBehaviour
     #endregion
     
     [Header("Knockback Info")]
-    [SerializeField] protected Vector2 knockbackDirection;
     [SerializeField] protected float knockbackDuration;
+    [SerializeField] protected Vector2 knockbackDirection;
     protected bool isKnocked;
     
     public float facingDir { get; private set; } = 1;

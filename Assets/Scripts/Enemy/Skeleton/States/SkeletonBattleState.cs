@@ -31,15 +31,22 @@ public class SkeletonBattleState : EnemyState
             stateTimer = skeleton.battleTime;
             if (skeleton.IsPlayerDetected().distance <= skeleton.attackDistance)
             {
-                if(CanAttack())
+               
+                if (CanAttack())
+                {
                     StateMachine.ChangeState(skeleton.attackState);
+                    return;
+                }
             }
             
         }
         else
         {
-            if( stateTimer <= 0 || Vector2.Distance(skeleton.transform.position,player.position) > 7)
+            if (stateTimer <= 0 || Vector2.Distance(skeleton.transform.position, player.position) >skeleton.playerCheckDistance)
+            {
                 StateMachine.ChangeState(skeleton.idleState);
+                return;
+            }
         }
         
         
