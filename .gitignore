@@ -13,6 +13,7 @@
 *.log
 
 # IDE settings and generated project files
+/.claude/
 .idea/
 .vs/
 *.DotSettings.user
@@ -33,6 +34,7 @@
 *.VC.db
 ExportedObj/
 .consulo/
+
 
 # Blender backup files
 *.blend1
