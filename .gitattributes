@@ -1,0 +1,44 @@
+# 跨平台换行符规范（根治 Windows TortoiseGit 与 WSL 之间的 CRLF/LF 打架）
+# 统一约定：文本文件一律 LF，二进制资产保持原样。
+
+# 默认：自动识别文本/二进制，避免对二进制文件做换行符转换
+* text=auto
+
+# ===== Unity / 脚本文本资产：强制 LF =====
+*.cs               text eol=lf
+*.unity            text eol=lf
+*.prefab           text eol=lf
+*.controller       text eol=lf
+*.anim             text eol=lf
+*.meta             text eol=lf
+*.mat              text eol=lf
+*.asset            text eol=lf
+*.physicsMaterial2D text eol=lf
+*.shader           text eol=lf
+*.cginc            text eol=lf
+*.hlsl             text eol=lf
+
+# ===== 通用文本 =====
+*.txt              text eol=lf
+*.md               text eol=lf
+*.json             text eol=lf
+*.yaml             text eol=lf
+*.yml              text eol=lf
+
+# ===== 二进制资产：显式声明，防止被当作文本而损坏 =====
+*.png              binary
+*.jpg              binary
+*.jpeg             binary
+*.psd              binary
+*.tga              binary
+*.dds              binary
+*.exr              binary
+*.hdr              binary
+*.ttf              binary
+*.otf              binary
+*.mp3              binary
+*.wav              binary
+*.ogg              binary
+*.fbx              binary
+*.obj              binary
+*.blend            binary
